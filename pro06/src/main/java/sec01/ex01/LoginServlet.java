@@ -1,0 +1,60 @@
+package sec01.ex01;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Enumeration;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class LoginServlet
+ */
+@WebServlet("/member/login")
+public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		String user_id = request.getParameter("user_id");
+		String user_pw = request.getParameter("user_pw");
+		System.out.println("아이디:" + user_id);
+		System.out.println("비밀번호:" + user_pw);
+		
+		String[] subject = request.getParameterValues("subject");
+		if (subject != null) {
+			for (int i=0; i<subject.length; i++) {
+				System.out.println("선택한 과목:"+subject[i]);
+			}
+	//		for (String str : subject) {
+	//			System.out.println("선택한 과목:"+str);
+	//		}
+		}
+		
+		Enumeration<String> names = request.getParameterNames();
+		while (names.hasMoreElements()) {
+			String name = names.nextElement();
+			System.out.println(name+":"+request.getParameter(name));
+		}
+		
+		// 서블릿 응답
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter pw = response.getWriter();
+		
+		String data = "<html>";
+		data += "<body style='color:red;'>";
+		data += "아이디 : " + user_id;
+		data += "<br>";
+		data += "패스워드!!!! : "+user_pw;
+		data += "</body>";
+		data += "</html>";
+		pw.print(data);
+	}
+
+}
